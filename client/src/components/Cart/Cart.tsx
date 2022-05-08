@@ -51,14 +51,17 @@ const Cart = (props: Props) => {
         style={{ textTransform: "none" }}
         disabled={cartItems.length === 0}
         onClick={() => {
-          dispatch(
-            placeOrder(
-              user?.id,
-              cartItems,
-              currentRestaurant?.id ?? "",
-              props.onClose
-            )
-          );
+          if (currentRestaurant) {
+            dispatch(
+              placeOrder(
+                user?.id,
+                currentRestaurant?.adminEmail,
+                cartItems,
+                currentRestaurant?.id,
+                props.onClose
+              )
+            );
+          }
         }}
       >
         Place order

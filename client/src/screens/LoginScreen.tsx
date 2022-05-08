@@ -14,6 +14,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../stores/store";
 import { loginUser } from "../stores/user/actions";
+import { setIsInputError } from "../stores/user/slice";
 
 function Copyright(props: any) {
   return (
@@ -40,6 +41,10 @@ export default function LoginScreen() {
   const isInputError = useSelector<RootState, boolean>(
     (state) => state.user.isInputError
   );
+
+  React.useEffect(() => {
+    dispatch(setIsInputError(false));
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

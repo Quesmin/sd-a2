@@ -1,5 +1,7 @@
 package sd.a2.server.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sd.a2.server.repository.AdminRepository;
@@ -15,6 +17,7 @@ import java.util.List;
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final AdminRepository adminRepository;
+    private Logger logger = LoggerFactory.getLogger(RestaurantService.class);
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository, AdminRepository adminRepository) {
@@ -25,12 +28,15 @@ public class RestaurantService {
     public RestaurantDto getById(String id) throws Exception {
         var r = restaurantRepository.findById(id);
         if (r.isEmpty()){
+            logger.error("Restaurant doesn't exist!");
             throw new Exception("Restaurant doesn't exist");
         }
+        logger.info("Find restaurant by id.");
         return RestaurantMapper.toDto(r.get());
     }
 
     public List<RestaurantDto> getAll() {
+        logger.info("Get all restaurants.");
         return restaurantRepository.findAll().stream().map(RestaurantMapper::toDto).toList();
     }
 
@@ -39,6 +45,7 @@ public class RestaurantService {
         var admin = adminRepository.findById(newRestaurantDto.getAdminId());
 
         if(admin.isEmpty()){
+            logger.error("Admin doesn't exist!");
             throw new Exception("Admin doesn't exist!");
         }
 
@@ -46,6 +53,7 @@ public class RestaurantService {
         entity.setAdmin(admin.get());
         var response = restaurantRepository.save(entity);
         admin.get().addRestaurant(response);
+        logger.info("New restaurant was added.");
         return RestaurantMapper.toDto(response);
     }
 }

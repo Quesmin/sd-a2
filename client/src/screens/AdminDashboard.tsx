@@ -45,9 +45,7 @@ const AdminDashboard = () => {
   );
 
   useEffect(() => {
-    // if (!currentRestaurant) {
     dispatch(setCurrentRestaurant(restaurants[0]));
-    // }
   }, [restaurants]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

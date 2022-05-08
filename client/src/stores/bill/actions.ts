@@ -7,10 +7,13 @@ import { placeOrderRequest } from "../../services/BillService";
 import { RootState } from "../store";
 import { addOrder } from "../user/slice";
 import { clearCart } from "../bill/slice";
+import { sendOrderEmail } from "../../services/EmailService";
+import { getEmailTemplateObject } from "../../utils/EmailingUtils";
 
 export const placeOrder =
   (
     customerId: string,
+    adminEmail: string,
     items: FoodOrderItem[],
     restaurantId: string,
     callback: () => void
@@ -30,7 +33,9 @@ export const placeOrder =
       } as OrderDto;
 
       const response = await placeOrderRequest(data);
-
+      await sendOrderEmail(
+        getEmailTemplateObject(customerId, adminEmail, restaurantId, response)
+      );
       dispatch(addOrder(response));
       dispatch(clearCart());
       callback();
