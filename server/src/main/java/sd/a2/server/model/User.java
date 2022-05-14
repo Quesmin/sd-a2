@@ -1,6 +1,7 @@
 package sd.a2.server.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
 public abstract class User {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,4 +30,13 @@ public abstract class User {
     private String email;
     private String passwordHash;
 
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User(String id, String email, String passwordHash) {
+        this.id = id;
+        this.email = email;
+        this.passwordHash = passwordHash;
+    }
 }

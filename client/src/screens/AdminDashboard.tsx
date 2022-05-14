@@ -1,32 +1,34 @@
-import AddIcon from "@mui/icons-material/Add";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+import AddIcon from '@mui/icons-material/Add';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import {
+  Button,
   FormControl,
   InputLabel,
   Select,
   SelectChangeEvent,
-} from "@mui/material";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Tab from "@mui/material/Tab";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import * as React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ContentTable from "../components/ContentTable/ContentTable";
-import FoodModal from "../components/FoodModal/FoodModal";
-import HeaderBar from "../components/HeaderBar/HeaderBar";
-import RestaurantModal from "../components/RestaurantModal/RestaurantModal";
-import { Restaurant } from "../models/entities/Restaurant";
-import { categories } from "../models/enums/FoodCategory";
-import { orderStatuses } from "../models/enums/OrderStatus";
-import { changeOrderStatus } from "../stores/restaurants/actions";
-import { setCurrentRestaurant } from "../stores/restaurants/slice";
-import { RootState } from "../stores/store";
+} from '@mui/material';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Tab from '@mui/material/Tab';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ContentTable from '../components/ContentTable/ContentTable';
+import FoodModal from '../components/FoodModal/FoodModal';
+import HeaderBar from '../components/HeaderBar/HeaderBar';
+import RestaurantModal from '../components/RestaurantModal/RestaurantModal';
+import { Restaurant } from '../models/entities/Restaurant';
+import { categories } from '../models/enums/FoodCategory';
+import { orderStatuses } from '../models/enums/OrderStatus';
+import { changeOrderStatus } from '../stores/restaurants/actions';
+import { setCurrentRestaurant } from '../stores/restaurants/slice';
+import { RootState } from '../stores/store';
+import generateFoodReport from '../utils/GenerateReport';
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const AdminDashboard = () => {
   const [orderStatus, setOrderStatus] = React.useState(orderStatuses[0]);
   const [restaurantModal, setRestaurantModal] = React.useState(false);
   const [foodModal, setFoodModal] = React.useState(false);
-  const [tab, setTab] = React.useState("1");
+  const [tab, setTab] = React.useState('1');
 
   const restaurants = useSelector<RootState, Restaurant[]>(
     (state) => state.user.user.restaurants
@@ -64,7 +66,7 @@ const AdminDashboard = () => {
           <InputLabel>Category</InputLabel>
           <Select
             value={category}
-            label="Category"
+            label='Category'
             onChange={(event: SelectChangeEvent) =>
               setCategory(event.target.value)
             }
@@ -86,7 +88,7 @@ const AdminDashboard = () => {
         />
 
         {!currentRestaurant?.foods ? (
-          <Box display={"flex"} pt={2}>
+          <Box display={'flex'} pt={2}>
             No items
           </Box>
         ) : (
@@ -94,9 +96,9 @@ const AdminDashboard = () => {
             header={
               <TableRow>
                 <TableCell>Name</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Category</TableCell>
-                <TableCell align="right">Price</TableCell>
+                <TableCell align='right'>Description</TableCell>
+                <TableCell align='right'>Category</TableCell>
+                <TableCell align='right'>Price</TableCell>
               </TableRow>
             }
             body={
@@ -106,14 +108,14 @@ const AdminDashboard = () => {
                 .map((row) => (
                   <TableRow
                     key={row.id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell component='th' scope='row'>
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.description}</TableCell>
-                    <TableCell align="right">{row.category}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align='right'>{row.description}</TableCell>
+                    <TableCell align='right'>{row.category}</TableCell>
+                    <TableCell align='right'>{row.price}</TableCell>
                   </TableRow>
                 ))
             }
@@ -125,27 +127,27 @@ const AdminDashboard = () => {
 
   const renderStatusOptions = (orderStatus: string) => {
     switch (orderStatus) {
-      case "PENDING":
+      case 'PENDING':
         return [
           <MenuItem value={orderStatuses[0]}>{orderStatuses[0]}</MenuItem>,
           <MenuItem value={orderStatuses[1]}>{orderStatuses[1]}</MenuItem>,
           <MenuItem value={orderStatuses[2]}>{orderStatuses[2]}</MenuItem>,
         ];
-      case "ACCEPTED":
+      case 'ACCEPTED':
         return [
           <MenuItem value={orderStatuses[1]}>{orderStatuses[1]}</MenuItem>,
           <MenuItem value={orderStatuses[3]}>{orderStatuses[3]}</MenuItem>,
         ];
-      case "DECLINED":
+      case 'DECLINED':
         return [
           <MenuItem value={orderStatuses[2]}>{orderStatuses[2]}</MenuItem>,
         ];
-      case "IN_DELIVERY":
+      case 'IN_DELIVERY':
         return [
           <MenuItem value={orderStatuses[3]}>{orderStatuses[3]}</MenuItem>,
           <MenuItem value={orderStatuses[4]}>{orderStatuses[4]}</MenuItem>,
         ];
-      case "DELIVERED":
+      case 'DELIVERED':
         return [
           <MenuItem value={orderStatuses[4]}>{orderStatuses[4]}</MenuItem>,
         ];
@@ -161,7 +163,7 @@ const AdminDashboard = () => {
           <InputLabel>Category</InputLabel>
           <Select
             value={orderStatus}
-            label="Category"
+            label='Category'
             onChange={(event: SelectChangeEvent) =>
               setOrderStatus(event.target.value)
             }
@@ -173,7 +175,7 @@ const AdminDashboard = () => {
         </FormControl>
 
         {!currentRestaurant?.orders ? (
-          <Box display={"flex"} pt={2}>
+          <Box display={'flex'} pt={2}>
             No items
           </Box>
         ) : (
@@ -181,9 +183,9 @@ const AdminDashboard = () => {
             header={
               <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Total</TableCell>
-                <TableCell align="right">Status</TableCell>
+                <TableCell align='right'>Description</TableCell>
+                <TableCell align='right'>Total</TableCell>
+                <TableCell align='right'>Status</TableCell>
               </TableRow>
             }
             body={currentRestaurant.orders
@@ -191,26 +193,26 @@ const AdminDashboard = () => {
               .map((row) => (
                 <TableRow
                   key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {row.id}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align='right'>
                     {row.orderedFoods
                       .map(
                         (element) => `${element.quantity}x${element.food.name} `
                       )
                       .join()}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align='right'>
                     {row.orderedFoods.reduce(
                       (acc, element) =>
                         acc + element.food.price * element.quantity,
                       0
                     )}
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align='right'>
                     <Select
                       defaultValue={row.orderStatus}
                       value={row.orderStatus}
@@ -236,8 +238,8 @@ const AdminDashboard = () => {
         <FormControl>
           <InputLabel>Restaurant</InputLabel>
           <Select
-            value={currentRestaurant?.name ?? ""}
-            label="Restaurant"
+            value={currentRestaurant?.name ?? ''}
+            label='Restaurant'
             sx={{ minWidth: 300 }}
             onChange={(event) =>
               dispatch(
@@ -264,15 +266,28 @@ const AdminDashboard = () => {
           onClose={() => setRestaurantModal(false)}
         />
 
+        <Button
+          onClick={() => {
+            if (currentRestaurant) {
+              generateFoodReport(
+                currentRestaurant.foods,
+                currentRestaurant.name
+              );
+            }
+          }}
+        >
+          Generate PDF
+        </Button>
+
         <TabContext value={tab}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange}>
-              <Tab label="Menu" value="1" />
-              <Tab label="Orders" value="2" />
+              <Tab label='Menu' value='1' />
+              <Tab label='Orders' value='2' />
             </TabList>
           </Box>
-          <TabPanel value="1">{renderAdminMenu()}</TabPanel>
-          <TabPanel value="2">{renderAdminOrders()}</TabPanel>
+          <TabPanel value='1'>{renderAdminMenu()}</TabPanel>
+          <TabPanel value='2'>{renderAdminOrders()}</TabPanel>
         </TabContext>
       </Box>
     </>

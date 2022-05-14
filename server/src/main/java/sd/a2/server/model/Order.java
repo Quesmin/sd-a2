@@ -1,16 +1,20 @@
 package sd.a2.server.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import sd.a2.server.dto.OrderedFoodDto;
 import sd.a2.server.model.state.*;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table
 @Entity(name = "orders")
 @Getter
 @Setter
+@AllArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -39,6 +43,12 @@ public class Order {
     public Order() {
         orderStatus = OrderStatus.PENDING;
         state = new PendingState(this);
+    }
+
+    public Order(String id, OrderStatus orderStatus, ArrayList<OrderedFood> orderedFoods) {
+        this.id = id;
+        this.orderStatus = orderStatus;
+        this.orderedFoods = orderedFoods;
     }
 
     public void advanceStatus() {
