@@ -20,11 +20,22 @@ public class CustomerService {
         this.customerRepository = repository;
     }
 
+    /**
+     * This is an utility function that checks whether the input string is a valid email or not.
+     * @param str
+     * @return
+     */
     private boolean isValidEmail(String str) {
         logger.info("Checking if email is valid...");
         return str.matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
     }
 
+    /**
+     * This method is trying to add a new customer to the current database.
+     * @param newCustomer
+     * @return
+     * @throws Exception
+     */
     public CustomerDto addCustomer(NewCustomerDto newCustomer) throws Exception {
         if (newCustomer.getEmail().isEmpty() ||
                 newCustomer.getPassword().isEmpty() ||

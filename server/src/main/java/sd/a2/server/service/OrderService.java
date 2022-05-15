@@ -36,6 +36,12 @@ public class OrderService {
         this.customerRepository = customerRepository;
     }
 
+    /**
+     * Adds a new order for a given restaurant to the current database.
+     * @param newOrder
+     * @return
+     * @throws Exception
+     */
     @Transactional
     public OrderDto addOrder(NewOrderDto newOrder) throws Exception {
         var customer = customerRepository.findById(newOrder.getCustomerId());
@@ -87,6 +93,13 @@ public class OrderService {
         return OrderMapper.toDto(response);
     }
 
+    /**
+     * Changes the order status to 'orderStatus' for the order with the 'id'.
+     * @param id
+     * @param orderStatus
+     * @return
+     * @throws Exception
+     */
     @Transactional
     public OrderDto changeOrderStatus(String id, OrderStatus orderStatus) throws Exception {
         var order = orderRepository.findById(id);

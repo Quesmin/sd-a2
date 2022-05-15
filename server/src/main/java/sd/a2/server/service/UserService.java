@@ -20,6 +20,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Logs in a given customer by checking the credentials.
+     * @param customerDto
+     * @return
+     * @throws Exception
+     */
     public UserDto login(LoginUserDto customerDto) throws Exception {
         var user = userRepository.findUserByEmail(customerDto.getEmail());
         if(user.isEmpty()){
