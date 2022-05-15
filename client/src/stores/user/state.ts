@@ -14,5 +14,6 @@ export const userInitialState: UserState = {
     email: "",
     restaurants: [],
     orders: [],
+    isAdmin: false,
   },
 };
