@@ -1,0 +1,8 @@
+sd.a2.server
+sd.a2.server.controller
+sd.a2.server.dto
+sd.a2.server.mapper
+sd.a2.server.model
+sd.a2.server.model.state
+sd.a2.server.repository
+sd.a2.server.service

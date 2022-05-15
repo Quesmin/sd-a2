@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"sd.a2.server"},{"l":"sd.a2.server.controller"},{"l":"sd.a2.server.dto"},{"l":"sd.a2.server.mapper"},{"l":"sd.a2.server.model"},{"l":"sd.a2.server.model.state"},{"l":"sd.a2.server.repository"},{"l":"sd.a2.server.service"}];updateSearchResults();
